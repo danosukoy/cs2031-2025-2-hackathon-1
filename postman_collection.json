@@ -1,0 +1,109 @@
+{
+  "info": {
+    "name": "Oreo Insight API",
+    "_postman_id": "a4c92c30-8b77-4e9f-9d5e-oreo",
+    "description": "API Collection for Oreo Insight (Register, Login, Sales)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "AUTH - Register",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/auth/register",
+          "host": ["{{BASE_URL}}"],
+          "path": ["auth", "register"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"dano\",\n  \"password\": \"1234\"\n}"
+        }
+      }
+    },
+    {
+      "name": "AUTH - Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/auth/login",
+          "host": ["{{BASE_URL}}"],
+          "path": ["auth", "login"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"dano\",\n  \"password\": \"1234\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var json = pm.response.json();",
+              "pm.environment.set(\"TOKEN\", json.token);",
+              "pm.environment.set(\"AUTH_HEADER\", \"Bearer \" + json.token);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "SALES - Get All Sales",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{AUTH_HEADER}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/sales",
+          "host": ["{{BASE_URL}}"],
+          "path": ["sales"]
+        }
+      }
+    },
+    {
+      "name": "SALES - Create Sale",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "{{AUTH_HEADER}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/sales",
+          "host": ["{{BASE_URL}}"],
+          "path": ["sales"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"product\": \"oreo pack\",\n  \"amount\": 12.50\n}"
+        }
+      }
+    }
+  ]
+}
